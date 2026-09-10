@@ -13,82 +13,93 @@ mailbox.
 **Do not call this zero-trace.** Do not call it unbreakable. Those words are
 how you get eaten.
 
-## Threat model: what we protect, and what we don't
+## Threat model: brutal honesty
 
-If you want a spell that makes your body vanish from the wire, close this
-tab. TSAR is not a network-anonymity tool. It is a cupboard built for one
-job: **what remains after the server is seized.**
+If you expect magic network anonymity or buzzwords, leave. This node is a
+cryptographic cupboard for one job: **what remains after seizure and a
+database audit.**
+
+Do not trust it until you can recite the limits.
 
 A mailbox, not a mixnet. A letter has to land in a box. The node therefore
 knows who was addressed. That is not a bug. That is a mailbox.
 
-### Out of scope (you cover this)
+### Out of scope (the server knows; you cover this)
 
-**1. Network traffic and IP addresses**
+**1. Network and the reverse proxy (Caddy)**
 
-When you hit Send, TLS leaves your machine and hits the node. The payload
-has no `sender_id`. The TCP peer is still an IP.
+Your IP connects to the machine. The JSON body has no `sender_id`. The
+TCP peer is still an IP.
 
-This process does not write IPs to SQLite. It does not write an access log.
-Flood control may HMAC `req.ip` in RAM; that secret dies on restart.
+This Node process does not write IPs to SQLite and does not write an access
+log. Flood control may HMAC `req.ip` in RAM; that secret dies on restart.
+The live ship sits behind Caddy with `log { output discard }` — no access
+log from that Caddyfile.
 
-**But:** a wire on the data-center cable, or a reverse proxy that logs, will
-see an encrypted connection from your IP at that time. This tree is not
-Tor. It is not a VPN. If traffic analysis is your threat, you bring Tor, a
-hardened VPN, or a network that is not yours. That is on you.
+We do not own the data center or the ISP. A tap on the physical line still
+sees TLS from your IP. This tree is not Tor. If traffic analysis is your
+threat, you bring Tor. That is on you.
 
-**2. A dirty endpoint**
+**2. The live session**
 
-If the device is already owned — malware, a keylogger, a screen-grabber —
-the cryptography is theatre. TSAR does not save a compromised OS.
+The database drops `sender_id`. Live memory does not.
 
-**3. The other number**
+`POST /api/messages` carries a valid session. For that slice of a second
+the process knows who is dropping the envelope, and to whom. When the
+handler returns, that mapping is not written to SQL. If the box is
+already owned, or someone takes a RAM dump in that window, or someone adds
+a `console.log`, the sender–recipient link can be captured before it is
+discarded. We will not pretend otherwise.
 
-We can hide the sender from the disk. We cannot make the recipient shut up,
-lock their phone, or not take a screenshot.
+**3. Endpoint and the other number**
 
-### In scope (what the cupboard actually does)
+A dirty OS, a keylogger, a screen-grabber, a recipient who talks: out of
+scope. Cryptography does not save a compromised machine.
 
-**1. The blind mailbox, at rest**
+### In scope (what this tree actually delivers)
 
-`messages` has no `sender_id`. The row is: recipient, type, ciphertext,
+**1. The blind database**
+
+`messages` has no `sender_id`. The row is recipient, type, ciphertext,
 `from_box`, hour. `db.js` will still notice a legacy `sender_id` and burn
 it. That scar is intentional.
 
-On disk, after seizure, you get a one-way jam: which numbers received how
-many envelopes, in which hours. You do not get a sender–recipient graph from
-that table.
+Once the handler finishes and RAM moves on, the historical
+sender–recipient graph is not in that table. What remains is a one-way
+jam: which numbers received how many sealed envelopes, in which hours.
 
-**While the request is in the air:** `POST /api/messages` is an
-authenticated session. The process knows who is dropping the envelope. It
-does not write that number into the row. A patched node, or proxy logs,
-can reconstruct who talked. This repo does not. Read that twice.
+**2. Honest cryptography (this repo is not Signal)**
 
-**2. Cryptographic sealing**
+Do not grep this tree for a Double Ratchet. You will not find one. This
+audit edition is the node. It stores envelopes. It does not implement
+Signal.
 
-The **body** is Signal ciphertext from the browser. This repo is not the
-Signal stack. It stores the envelope.
+`from_box` (`fromBox.js`) uses stock primitives, not a homemade cipher:
 
-`from_box` is sealed here, in `fromBox.js`, to the recipient identity public
-key:
-
-- X25519 ephemeral key agreement
+- X25519 ephemeral Diffie–Hellman
 - HKDF-SHA-256 (`info`: `tsar/from-box/v1`) on v2
 - AES-256-GCM
 
-Wire: `v2.<ephPub>.<iv>.<ct>`. The identity private key lives in the vault.
-The node cannot open the vault, so it cannot open `from_box`. v1 decrypt
-is still accepted (DH bits as the AES key). New mail is v2 only.
+Wire: `v2.<ephPub>.<iv>.<ct>`. Sealed to the recipient identity public key.
+The identity private key lives in the vault. The node cannot open the
+vault, so it cannot open `from_box`. v1 decrypt is still accepted (DH bits
+as the AES key). New mail is v2 only.
 
-**3. What a warrant gets from this SQLite**
+The live client at tsared.com still runs Signal on the **letter body**.
+That client is not in this repository. If you are grading a ratchet, you
+are in the wrong tree. If you are grading what the operator can read from
+SQLite, you are in the right one.
 
-A six-digit number. A bcrypt of a client-side proof — not the password. An
-AES-GCM vault it cannot open. Public Signal keys. Hour-bucketed envelopes
-it cannot read. No name. No email. No phone. No IP column.
+**3. Forensic dead end (the disk, not the wire)**
 
-That is not "zero forensic value." That is an empty cupboard with a pile of
-closed envelopes addressed to numbers. If you wanted the operator blind to
-the recipient too, you would be running an onion. This is not that project.
+A seized drive yields: six-digit numbers, bcrypt of a client-side proof
+(not the password), AES-GCM vault blobs, public keys, hour-bucketed
+envelopes the node cannot read. No IP column. No name. No email. No
+plaintext. No sender column.
+
+That is not "nothing." That is an empty cupboard with closed envelopes
+addressed to numbers. If you wanted the operator blind to the recipient too,
+you would be running an onion. This is not that project.
 
 | Seizure of `data/tsar.db` | Live request / the wire | This tree |
 | --- | --- | --- |
