@@ -3,6 +3,14 @@
   "private": false,
   "version": "0.0.0",
   "type": "module",
+  "license": "SEE LICENSE.md",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TSARAUTHOR/tsar-audit"
+  },
   "scripts": {
     "start": "node index.js"
   },
