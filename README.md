@@ -101,6 +101,16 @@ That is not "nothing." That is an empty cupboard with closed envelopes
 addressed to numbers. If you wanted the operator blind to the recipient too,
 you would be running an onion. This is not that project.
 
+**4. Network Zero-Trace (The Onion Gateway)**
+
+While the clearnet exposes your IP to the physical data center, our official
+.onion Hidden Service completely bypasses the visible internet. If you
+connect via the Tor network, the network trace is zero. The TCP peer
+hitting the Node process is strictly localhost, and your origin IP
+mathematically does not exist to us. The blind vault meets a blind network.
+
+Official Onion: [http://tsarzzanfdnf2bs3rsoj7xgqb2sjbntl57pzer62qmoyweiournubdad.onion](http://tsarzzanfdnf2bs3rsoj7xgqb2sjbntl57pzer62qmoyweiournubdad.onion)
+
 | Seizure of `data/tsar.db` | Live request / the wire | This tree |
 | --- | --- | --- |
 | Recipient | Authenticated sender on `POST /api/messages` | Stored: recipient. Not stored: sender. |
