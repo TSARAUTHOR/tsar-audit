@@ -467,11 +467,11 @@ app.post(
         user.deadmanEvery > 0 &&
         user.deadmanUntil > 0 &&
         now > user.deadmanUntil;
-      startSession(res, user.id, req.body?.label, "real");
+      startSession(res, user.id, req.body?.label, deadman ? "b" : "real");
       return res.json({
         publicId: user.public_id,
         vault: user.vault,
-        door: "real",
+        door: deadman ? "b" : "real",
         deadman: deadman || undefined,
       });
     }

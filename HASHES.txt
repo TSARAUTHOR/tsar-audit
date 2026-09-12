@@ -1,6 +1,6 @@
 # TSAR browser build
-# git 562b173
-# built 2026-09-11T20:19:08.726Z
+# git 90145d2
+# built 2026-09-12T05:02:59.428Z
 #
 # If you fetched this from tsared.com, it is the same host as the JS.
 # A fake site can fake this file. The pin is GitHub:
@@ -14,5 +14,5 @@
 # sha256sum format (hash, two spaces, path).
 
 a118bd62e2dde08f7fd892d9d78fc95b4306d2807742b7055fb0e819c54ed77c  assets/index-BT5_RJ1b.css
-c599a0bb00281e102073975bd8f0eb7897c9aa6196bfed2273d607d6f8f881be  assets/index-De38UwSm.js
-c8c7f5c60487f196b385a70465a222223cd067158d4b5f3563618f9113078957  index.html
+5364a44bed2f7813f60c9ec854874241945af51e4c78da1c3612265153b5095d  assets/index-C_DSJhaU.js
+99b7e783f0cb54a64dcfe9343fef3584d28772e8b7ea9a2c791374d483382630  index.html

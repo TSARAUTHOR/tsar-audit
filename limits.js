@@ -45,7 +45,14 @@ export function limit({ name, limit: max, windowMs, by = "address", message }) {
       const session = req.cookies?.tsar;
       parts.push(tag(session || req.ip || "local"));
     }
-    if (by === "number" || by === "both") parts.push(tag(req.body?.publicId ?? ""));
+    if (by === "number" || by === "both") {
+      const digits = String(req.body?.publicId ?? "")
+        .toUpperCase()
+        .replace(/^TSAR:/, "")
+        .replace(/\s+/g, "");
+      const id = digits === "ADMIN" ? "000000" : /^\d{6}$/.test(digits) ? digits : "bad-id";
+      parts.push(tag(id));
+    }
 
     const result = hit(parts.join("|"), max, windowMs);
     if (result.ok) return next();
