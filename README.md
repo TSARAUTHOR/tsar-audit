@@ -192,6 +192,7 @@ shasum -a 256 TSAR.dmg
 ```
 
 The Mac file is an unsigned WKWebView of the live site, not a second
-crypto stack. Apple has not notarized it. The hash pins the bytes you
-downloaded. It does not prove the Node process on the VPS. It pins the
-files the browser or the Mac wrapper was told to run.
+crypto stack. Apple has not notarized it. Banners say New letter, not
+the text. The hash pins the bytes you downloaded. It does not prove
+the Node process on the VPS. It pins the files the browser or the Mac
+wrapper was told to run.
