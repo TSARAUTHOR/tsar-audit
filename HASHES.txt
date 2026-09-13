@@ -1,18 +1,23 @@
-# TSAR browser build
-# git 93427c4
-# built 2026-09-12T05:13:49.703Z
+# TSAR live files
+# git 7810a0d
+# built 2026-09-13T16:01:53.467Z
 #
-# If you fetched this from tsared.com, it is the same host as the JS.
-# A fake site can fake this file. The pin is GitHub:
+# If you fetched this from tsared.com, it is the same host as the files.
+# A fake site can fake this list. The pin is GitHub:
 #   https://github.com/TSARAUTHOR/tsar-audit/blob/main/HASHES.txt
 #   https://raw.githubusercontent.com/TSARAUTHOR/tsar-audit/main/HASHES.txt
 #
-# Check one file:
+# Browser:
 #   curl -fsSO https://tsared.com/assets/<name>.js
 #   shasum -a 256 <name>.js
 #
+# Mac disk image (unsigned wrapper of this site, not a second crypto stack):
+#   curl -fsSO https://tsared.com/TSAR.dmg
+#   shasum -a 256 TSAR.dmg
+#
 # sha256sum format (hash, two spaces, path).
 
-3fb0309aa3734ed0b2db8b381aec574b4f0ba2f1eeca9dd2e773d6c4c391d4dd  assets/index-BH06lXIv.js
-a118bd62e2dde08f7fd892d9d78fc95b4306d2807742b7055fb0e819c54ed77c  assets/index-BT5_RJ1b.css
-93318bc03ac3184ed84be291ee68ecd219258741269a835cf0e13cf71dcbc53b  index.html
+ee3bf1951ba880a87539fd13701e1d7b6c9424fc9d83f7453f29f4fd9e03be85  TSAR.dmg
+15ab64f183a50a8b83caa6604013a0da9f74e4c19ea24e539ceb4045c11ded15  assets/index-Bx7rFlGh.css
+ec15c852e3e9b2ad9c6f0a486bebc44754ccfd67767c01552be29e402234c807  assets/index-ovTISR4X.js
+a08c92c0949080d9af26ec641e376d9f66d06047eedf5525d64ed11b7ae9f529  index.html

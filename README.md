@@ -177,16 +177,21 @@ on the hull.
 This tree is the node. The chat UI is not here.
 
 Each live web build writes `HASHES.txt` in this folder: SHA-256 of
-`index.html` and the JS/CSS on [tsared.com](https://tsared.com/hashes.txt).
+`index.html`, the JS/CSS, and the Mac disk image on
+[tsared.com](https://tsared.com/hashes.txt).
 
-If you fetched `hashes.txt` from the site, it is the same host as the JS.
+If you fetched `hashes.txt` from the site, it is the same host as the files.
 A fake site can fake that file. Diff it with this GitHub copy.
 
 ```bash
 curl -fsS https://raw.githubusercontent.com/TSARAUTHOR/tsar-audit/main/HASHES.txt
 curl -fsSO https://tsared.com/assets/REPLACE.js
 shasum -a 256 REPLACE.js
+curl -fsSO https://tsared.com/TSAR.dmg
+shasum -a 256 TSAR.dmg
 ```
 
-This does not prove the Node process on the VPS. It pins the files the
-browser was told to run.
+The Mac file is an unsigned WKWebView of the live site, not a second
+crypto stack. Apple has not notarized it. The hash pins the bytes you
+downloaded. It does not prove the Node process on the VPS. It pins the
+files the browser or the Mac wrapper was told to run.
