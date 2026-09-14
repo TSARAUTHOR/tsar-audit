@@ -1,6 +1,6 @@
 # TSAR live files
-# git 9da592f
-# built 2026-09-14T05:34:48.868Z
+# git 5f31dc9
+# built 2026-09-14T09:33:03.868Z
 #
 # If you fetched this from tsared.com, it is the same host as the files.
 # A fake site can fake this list. The pin is GitHub:
@@ -20,4 +20,4 @@
 c3e825ca4549d121cb8e55ef7bbe99ce613adf3136df5fdc1a7fd3cb71bcfea7  TSAR.dmg
 817b8cdf8bb4ef2464e72388a94f24a147285a0878e64af165df2c0969475792  assets/index-DNvQn35J.css
 64bb5ee2ff0ac0a10403810c025a82759795cfc99ede2d03359873e6c9904d8a  assets/index-ZMsydLwS.js
-b404d1af79c27ec7ef333c2f5d2808fdc62209faf0de46a1e95e615c73aebddd  index.html
+8c2f7c8ff5144588f521d89e2e54b86fdfacd30f6f124448c21d5f4b8aadb53f  index.html
